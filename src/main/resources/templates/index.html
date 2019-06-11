@@ -52,16 +52,23 @@
         <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12">
             <h2 class="h2"><span class="glyphicon glyphicon-list" aria-hidden="true"></span>发现</h2>
             <hr>
-            <div class="media">
+            <div class="media" th:each="question:${questions}">
                 <div class="media-left">
                     <a href="#">
-                        <img class="media-object img-thumbnail" src="https://avatars2.githubusercontent.com/u/49948992?v=4" alt="tu">
+                        <img class="media-object img-thumbnail" th:src="${question.user.avatarUrl}">
                     </a>
                 </div>
                 <div class="media-body">
-                    <h4 class="media-heading">怎么快速变帅  springboot</h4>
-                    点击计算机技术领先全国只有葛飞最帅 <br>
-                    0 个回复 • 55 次浏览 • 1 天前
+                    <h4 class="media-heading">
+                        <a th:href="@{'/question/'+ ${question.id}}" th:text="${question.title}"></a>
+                    </h4>
+
+                    <span class="text-desc">
+                        <a href="#"><span class="span" th:text="${question.description}">    </span></a>
+                        <a href="#"><span th:text="${question.commentCount}"></span> </a>个回复 •
+                        <a href="#"><span th:text="${question.viewCount}"></span></a> 次浏览 •
+                        <a href="#"><span th:text="${#dates.format(question.gmtCreate,'yyyy-MM-dd HH:mm')}"></span></a>
+                    </span>
                 </div>
             </div>
         </div>
