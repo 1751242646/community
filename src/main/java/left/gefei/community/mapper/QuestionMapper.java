@@ -1,33 +1,42 @@
 package left.gefei.community.mapper;
 
-import left.gefei.community.dto.QuestionDTO;
-import left.gefei.community.model.Question;
-import org.apache.ibatis.annotations.*;
-
 import java.util.List;
 
-@Mapper
+import left.gefei.community.model.Question;
+import left.gefei.community.model.QuestionExample;
+import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.session.RowBounds;
+
 public interface QuestionMapper {
+    int countByExample(QuestionExample example);
 
-    @Insert("insert into question (title,description,gmt_create,gmt_modified,creator,tag) values(#{title},#{description},#{gmtCreate},#{gmtModified},#{creator},#{tag})")
-    void create(Question question);
+    int deleteByExample(QuestionExample example);
 
-    @Select("select * from question limit #{offset},#{size}")
-    List<Question> list(@Param(value = "offset") Integer offset, @Param(value = "size") Integer size);
+    int deleteByPrimaryKey(Integer id);
 
-    @Select("SELECT COUNT(1) FROM question")
-    Integer count();
+    int insert(Question record);
 
-    /*where creator = #{userId} limit #{offset},#{size}*/
-    @Select("select * from question where creator = #{userId} limit #{offset},#{size}")
-    List<Question> listByUserId(@Param(value = "userId") Integer userId, @Param(value = "offset") Integer offset, @Param(value = "size") Integer size);
+    int insertSelective(Question record);
 
-    @Select("select count(1) from question where creator = #{userId}")
-    Integer countByUserId(@Param(value = "userId") Integer userId);
+    List<Question> selectByExampleWithBLOBsWithRowbounds(QuestionExample example, RowBounds rowBounds);
 
-    @Select("select * from question where id = #{id}")
-    Question getById(@Param(value = "id")Integer id);
+    List<Question> selectByExampleWithBLOBs(QuestionExample example);
 
-    @Update("update question set title = #{title},description = #{description},gmt_modified = #{gmtModified},tag = #{tag} where id = #{id}")
-    void update(Question question);
+    List<Question> selectByExampleWithRowbounds(QuestionExample example, RowBounds rowBounds);
+
+    List<Question> selectByExample(QuestionExample example);
+
+    Question selectByPrimaryKey(Integer id);
+
+    int updateByExampleSelective(@Param("record") Question record, @Param("example") QuestionExample example);
+
+    int updateByExampleWithBLOBs(@Param("record") Question record, @Param("example") QuestionExample example);
+
+    int updateByExample(@Param("record") Question record, @Param("example") QuestionExample example);
+
+    int updateByPrimaryKeySelective(Question record);
+
+    int updateByPrimaryKeyWithBLOBs(Question record);
+
+    int updateByPrimaryKey(Question record);
 }

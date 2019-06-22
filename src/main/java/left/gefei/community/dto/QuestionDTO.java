@@ -1,7 +1,7 @@
 package left.gefei.community.dto;
 
-import left.gefei.community.model.User;
 
+import left.gefei.community.model.User;
 
 public class QuestionDTO {
     private Integer id;

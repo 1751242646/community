@@ -2,11 +2,19 @@ package left.gefei.community.model;
 
 public class User {
     private Integer id;
+
     private String accountId;
+
     private String name;
+
     private String token;
+
     private Long gmtCreate;
+
     private Long gmtModified;
+
+    private String bio;
+
     private String avatarUrl;
 
     public Integer getId() {
@@ -57,11 +65,19 @@ public class User {
         this.gmtModified = gmtModified;
     }
 
+    public String getBio() {
+        return bio;
+    }
+
+    public void setBio(String bio) {
+        this.bio = bio == null ? null : bio.trim();
+    }
+
     public String getAvatarUrl() {
         return avatarUrl;
     }
 
     public void setAvatarUrl(String avatarUrl) {
-        this.avatarUrl = avatarUrl;
+        this.avatarUrl = avatarUrl == null ? null : avatarUrl.trim();
     }
 }
