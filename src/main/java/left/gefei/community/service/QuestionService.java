@@ -2,6 +2,8 @@ package left.gefei.community.service;
 
 import left.gefei.community.dto.PaginationDTO;
 import left.gefei.community.dto.QuestionDTO;
+import left.gefei.community.exception.CustomizeErrorCode;
+import left.gefei.community.exception.CustomizeException;
 import left.gefei.community.mapper.QuestionMapper;
 import left.gefei.community.mapper.UserMapper;
 import left.gefei.community.model.Question;
@@ -15,12 +17,15 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 
+
 @Service
 public class QuestionService {
     @Autowired
     private QuestionMapper questionMapper;
     @Autowired
     private UserMapper userMapper;
+
+
     public PaginationDTO list(Integer page, Integer size) {
         PaginationDTO paginationDTO = new PaginationDTO();
         Integer totalPage;
@@ -105,6 +110,9 @@ public class QuestionService {
 
     public QuestionDTO getById(Integer id) {
         Question question = questionMapper.selectByPrimaryKey(id);
+        if (question == null){
+            throw new CustomizeException(CustomizeErrorCode.QUESTION_NOT_FOUND);
+        }
         QuestionDTO questionDTO = new QuestionDTO();
         BeanUtils.copyProperties(question,questionDTO);
         User user = userMapper.selectByPrimaryKey(question.getCreator());
@@ -112,12 +120,15 @@ public class QuestionService {
         return questionDTO;
     }
 
-    public void createOrUpdate(Question question) {
+    public void createOrUpdate(Question question) throws ClassCastException {
         if(question.getId() == null){
             //如果id为空那么就添加
 
             question.setGmtCreate(System.currentTimeMillis());
             question.setGmtModified(question.getGmtCreate());
+            question.setViewCount(0);
+            question.setLikeCount(0);
+            question.setCommentCount(0);
             questionMapper.insert(question);
         }else {
             //否则就更新
@@ -128,7 +139,17 @@ public class QuestionService {
             updateQuestion.setTag(question.getTag());
             QuestionExample example = new QuestionExample();
             example.createCriteria().andIdEqualTo(question.getId());
-            questionMapper.updateByExampleSelective(updateQuestion, example);
+            int updated = questionMapper.updateByExampleSelective(updateQuestion, example);
+            if (updated != 1) {
+                throw new CustomizeException(CustomizeErrorCode.QUESTION_NOT_FOUND);
+            }
         }
+    }
+
+    public void incView(Integer id) {
+        Question question = new Question();
+        question.setId(id);
+        question.setViewCount(1);
+        questionMapper.incView(question);
     }
 }

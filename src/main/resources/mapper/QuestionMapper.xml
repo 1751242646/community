@@ -368,4 +368,13 @@
       order by ${orderByClause}
     </if>
   </select>
+
+
+
+  <update id="incView" parameterType="left.gefei.community.model.Question">
+    update QUESTION
+    set
+    VIEW_COUNT = VIEW_COUNT + #{viewCount,jdbcType=INTEGER}
+    where id = #{id}
+    </update>
 </mapper>
