@@ -1,3 +1,4 @@
+
 .profile .section{
     margin-top: 15px;
 }
@@ -7,4 +8,11 @@
 }
 .jumbotron{
     margin: 50px;
+}
+.media{
+    margin-bottom: 5px;
+}
+.btn-comment{
+    margin: 10px;
+    float: right;
 }

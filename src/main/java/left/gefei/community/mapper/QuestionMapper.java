@@ -1,7 +1,6 @@
 package left.gefei.community.mapper;
 
 import java.util.List;
-
 import left.gefei.community.model.Question;
 import left.gefei.community.model.QuestionExample;
 import org.apache.ibatis.annotations.Param;
@@ -12,7 +11,7 @@ public interface QuestionMapper {
 
     int deleteByExample(QuestionExample example);
 
-    int deleteByPrimaryKey(Integer id);
+    int deleteByPrimaryKey(Long id);
 
     int insert(Question record);
 
@@ -26,7 +25,7 @@ public interface QuestionMapper {
 
     List<Question> selectByExample(QuestionExample example);
 
-    Question selectByPrimaryKey(Integer id);
+    Question selectByPrimaryKey(Long id);
 
     int updateByExampleSelective(@Param("record") Question record, @Param("example") QuestionExample example);
 
@@ -39,6 +38,6 @@ public interface QuestionMapper {
     int updateByPrimaryKeyWithBLOBs(Question record);
 
     int updateByPrimaryKey(Question record);
-
     int incView(Question record);
+    int incCommentCount(Question record);
 }
